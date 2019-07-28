@@ -7,9 +7,9 @@ function angle_vector = IK(g_st_theta,length_of_links)
 % length_of_links is the vector of four links.
 %% variables definition
 % typical input of g_st_theta
-% g_st_theta =[ 0.3846   -0.0000   -0.9231    1.0000
+% g_st_theta =[ 0.3846   -0.0000   -0.9231    2.0000
 %              -0.0000   -1.0000    0.0000   -0.5000
-%              -0.9231   -0.0000   -0.3846    4.0000
+%              -0.9231   -0.0000   -0.3846    3.0000
 %                    0         0         0    1.0000];    % can be modified
 % length_of_links = [1 2 3 0.5];
 g_st0 = [1 0 0 0;
@@ -45,13 +45,13 @@ final_position = g3(1:3);                                               % coordi
 
 twist1 = [cross(-w1,[0 0 1]');w1];                                      % calculate twist of the product
 exp1 = T_matrix(twist1,theta1(1));
-twist2 = [cross(-w2,[0 0 1]');w2];
+twist2 = [cross(-w2,[1 0 0]');w2];
 exp2 = T_matrix(twist2,theta2(1));
 
 %% step3.solve for theta4 and theta5 with solution of subproblem 2
 g2 = exp1*exp2*exp3\g_st_theta/g_st0;
 
-final_p6 = g2*[0 length_of_links(3)+length_of_links(4) length_of_links(1)+length_of_links(2) 1]';
+final_p6 = g2*g_st0(:,4);
 original_p6 = [0 length_of_links(3)+length_of_links(4) length_of_links(1)+length_of_links(2)]';
 w4 = [0 1 0]';
 w5 = [1 0 0]';
